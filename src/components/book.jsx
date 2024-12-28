@@ -14,7 +14,7 @@ import {
 } from "three";
 import { pageAtom, pages } from "./UI";
 import { Color } from "three";
-import { useHelper, useTexture } from "@react-three/drei";
+import { useCursor, useHelper, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { color, roughness } from "three/examples/jsm/nodes/Nodes.js";
@@ -25,8 +25,8 @@ import { use } from "react";
 
 const easingFactor = 0.5;
 const easingFactorFold = 0.3;
-const insideCurveStrength = 0.18;
-const outsideCurveStrength = 0.05;
+const insideCurveStrength = 0.12;
+const outsideCurveStrength = 0.03;
 const turningCurveStrength = 0.09;
 
 
@@ -80,6 +80,7 @@ pageGeometry.setAttribute(
 
 
 const whiteColor = new Color("white");
+const emisiveColor = new Color("pink")
 
 const pageMaterials = [
     new MeshStandardMaterial({
@@ -148,6 +149,8 @@ const pageMaterials = [
                     : {
                         roughness: 0.1 //use close to 1 for matte effect?   
                     }),
+                    emissive: emisiveColor,
+                    emissiveIntensity: 0,
             }),
             new MeshStandardMaterial({
                 color: whiteColor,
@@ -158,7 +161,9 @@ const pageMaterials = [
                     }
                     : {
                         roughness: 0.1 //use close to 1 for matte effect?
-                    })
+                    }),
+                    emissive: emisiveColor,
+                    emissiveIntensity: 0,
 
             })
         ];
@@ -181,6 +186,14 @@ const pageMaterials = [
         if (!skinnedMeshRef.current) {
           return;
         }
+
+        const emissiveIntensity = highlighted ? 0.22 : 0;
+        skinnedMeshRef.current.material[4].emissiveIntensity =
+          skinnedMeshRef.current.material[5].emissiveIntensity = MathUtils.lerp(
+            skinnedMeshRef.current.material[4].emissiveIntensity,
+            emissiveIntensity,
+            0.1
+          );
 
         if (lastOpened.current !== opened) {
           turnedAt.current =+ new Date();
@@ -241,10 +254,28 @@ const pageMaterials = [
       });
     
 
- 
+const [_, setPage] = useAtom(pageAtom); 
+
+ const   [highlighted, setHighlighted] = useState(false);
+ useCursor(highlighted);
     
     return (
-        <group {...props} ref = {group}>
+        <group {...props} ref={group}
+        onPointerEnter={(e) => {
+            e.stopPropagation();
+            setHighlighted(true);
+        }}
+        onPointerLeave={(e) => {
+            e.stopPropagation();
+            setHighlighted(false);
+        }}
+        onClick={(e) => {
+            e.stopPropagation();
+            setPage(opened ? number : number + 1);
+            setHighlighted(false); 
+        }}
+
+        >
             <primitive object = {manualSkinnedMesh} ref = {skinnedMeshRef}
         position-z={-number * PAGE_DEPTH + page * PAGE_DEPTH}
         />
