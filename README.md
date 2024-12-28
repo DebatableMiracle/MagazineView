@@ -1,5 +1,11 @@
-Its a virtual book or magazine for a portfolio design ig?
+# a 3D magazine render for Web using React 3Fiber and three.js
 
-[Video tutorial](https://youtu.be/b7a_Y1Ja6js)
 
+
+
+
+
+
+Sources
+[Live demo](https://r3f-animated-book-slider-final.vercel.app/)
 
