@@ -109,7 +109,7 @@ const pageMaterials = [
       `/textures/${front}.jpg`,
       `/textures/${back}.jpg`,
       ...(number === 0 || number === pages.length - 1
-        ? [`/textures/miami.jpg`]
+        ? [`/textures/snownight.jpg`]
         : []),
     ]);
 

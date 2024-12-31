@@ -2,27 +2,24 @@ import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 
 const pictures = [
-  "DSC00680",
-  "DSC00933",
-  "DSC00966",
-  "DSC00983",
-  "DSC01011",
-  "DSC01040",
-  "DSC01064",
-  "DSC01071",
-  "DSC01103",
-  "DSC01145",
-  "DSC01420",
-  "DSC01461",
-  "DSC01489",
-  "DSC02069",
-
+  "faishon",
+  "laptoptexting",
+  "library",
+  "nerd",
+  "pizza3",
+  "cheese2",
+  "saturday2",
+  "baskinrobbins2",
+  "villa",
+  "coffee",
+  "tomorrow2",
+  "deadpool",
 ];
 
 export const pageAtom = atom(0);
 export const pages = [
   {
-    front: "name3",
+    front: "covera1",
     back: pictures[0],
   },
 ];
